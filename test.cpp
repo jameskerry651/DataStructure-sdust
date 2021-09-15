@@ -12,7 +12,7 @@
 6.两个顺序表的合并
 7.根据顺序表的位置返回其数值 GetElem(&L,i,&e)
 8.顺序表的销毁    DestroyList(&L)
-
+9.顺序表的逆序    ListReverse_Sq(SqList &L)
 
 **/
 #define ERROR -1
@@ -36,6 +36,7 @@ Status ListDelete(Sqlist &L,int pos,ElemType &e);
 void ClearList(Sqlist &L);
 Status DestroyList(Sqlist &L);
 Status GetElem(Sqlist &L,int pos,ElemType &e);
+Status ListReverse_Sq(Sqlist &L);
 int main()
 {
     Sqlist list;
@@ -49,7 +50,8 @@ int main()
     //int a;
     ListInsert(list,3,22);
     PrintList(list);
-
+    ListReverse_Sq(list);
+    PrintList(list);
     return 0;
 }
 
@@ -125,7 +127,18 @@ Status GetElem(Sqlist &L,int pos,ElemType &e){
     return OK;
 }
 
+Status ListReverse_Sq(Sqlist &L){
+    int i,t;
+    t = L.length/2;       //奇偶无所谓
+    for(i=0;i<=t;i++){
+        int tmp = *(L.elem + i);
+        *(L.elem+i) = *(L.elem + L.length-1-i);
+        *(L.elem + L.length-1-i) = tmp;
+    }
 
+    return OK;
+
+}
 
 
 
