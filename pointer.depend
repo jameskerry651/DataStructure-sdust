@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1631089478 source:d:\code\pointer\main.c
+	<stdio.h>
+
+1608023723 source:d:\code\pointer\ds.cpp
+	<cstdio>
+	<ctype.h>
+	<cstring>
+	<iostream>
+
+1631623547 source:d:\code\pointer\test.cpp
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+
+1631705854 source:d:\code\datastructure-sdust\test.cpp
+	<stdio.h>
+	<stdlib.h>
+	<malloc.h>
+
