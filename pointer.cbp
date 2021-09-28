@@ -31,7 +31,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="click.cpp" />
+		<Unit filename="LinkedList.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
