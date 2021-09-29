@@ -1,0 +1,186 @@
+#include "stdio.h"
+#include "stdlib.h"
+
+#define OK 1
+#define ERROR -1
+typedef int Status;
+
+typedef struct LNode{
+    int pow;
+    int coe;
+    struct LNode *next;
+} LNode,*LinkList;
+
+// 完成一个顺序插入链表的函数
+
+Status insert_sort_list(LinkList &L,int coe,int pow);
+void creat_list(LinkList &L);
+
+void Print_List(LinkList &L){
+    LinkList p = L;
+    if(p->next==NULL){
+        printf("0 0");
+    } else{
+        while (p->next!=NULL){
+            p = p->next;
+            if(p->next==NULL){
+                printf("%d ",p->coe);
+                printf("%d",p->pow);
+            } else{
+                printf("%d ",p->coe);
+                printf("%d ",p->pow);
+            }
+
+        }
+    }
+
+}
+
+int getLength(LinkList &L){
+    LinkList cur = L;
+    int count = 0;
+    while (cur->next!=NULL){
+        cur = cur->next;
+        count ++;
+    }
+    return count;
+}
+int main()
+{
+    int count;
+    scanf("%d",&count);
+    LinkList p1;
+    LinkList p2;
+    creat_list(p1);
+    creat_list(p2);
+
+    for (int i = 0; i < count; ++i) {
+        int tmp1,tmp2;
+        scanf("%d %d",&tmp1,&tmp2);
+        insert_sort_list(p1,tmp1,tmp2);
+    }
+    scanf("%d",&count);
+    for (int i = 0; i < count; ++i) {
+        int tmp1,tmp2;
+        scanf("%d %d",&tmp1,&tmp2);
+        insert_sort_list(p2,tmp1,tmp2);
+    }
+
+    LinkList p3;
+    creat_list(p3);
+
+    LinkList cur1 = p1;
+    LinkList cur2 = p2;
+    LinkList cur3 = p3;
+
+    while (cur1->next!=NULL){
+        cur1 = cur1->next;
+        int coe1 = cur1->coe;
+        int pow1 = cur1->pow;
+        while (cur2->next!=NULL){
+            cur2 = cur2->next;
+            int coe2 = cur2->coe;
+            int pow2 = cur2->pow;
+            coe2 = coe1 * coe2;
+            pow2 = pow1 + pow2;
+
+            LinkList tmp = (LinkList) malloc(sizeof(LNode));
+            tmp->coe = coe2;
+            tmp->pow = pow2;
+            cur3->next = tmp;
+            tmp->next = NULL;
+            cur3 = tmp;
+        }
+        cur2 = p2;
+    }
+
+    cur3 = p3;
+    LinkList p4;
+    creat_list(p4);
+    while (cur3->next){
+        cur3 = cur3->next;
+        insert_sort_list(p4,cur3->coe,cur3->pow);
+    }
+    cur2 = p2;
+    while (cur2->next){
+        cur2 = cur2->next;
+        insert_sort_list(p1,cur2->coe,cur2->pow);
+    }
+
+
+    Print_List(p4);
+    printf("\n");
+    Print_List(p1);
+
+
+
+
+    return 0;
+}
+
+Status insert_sort_list(LinkList &L,int coe,int pow){
+    //考虑一开始的链表为空的特殊情况
+
+    LinkList cur = L;
+    if(cur->next == NULL){
+        LinkList tmp = (LinkList) malloc(sizeof(LNode));
+        tmp->coe = coe;
+        tmp->pow = pow;
+        cur->next = tmp;
+        tmp->next = NULL;
+        return OK;
+    }
+    // 一开始链表不为空或者只有一个的时候
+
+    while (cur->next!=NULL){
+        LinkList prior = cur;
+        cur = cur->next;         //目前的指针
+        LinkList rear = cur->next;  //目前指针的后一个指针
+
+        if(rear==NULL){
+            LinkList tmp = (LinkList) malloc(sizeof(LNode));
+            tmp->coe = coe;
+            tmp->pow = pow;
+            cur->next = tmp;
+            tmp->next = NULL;
+            return OK;
+        }
+        // 还要考虑是否相等然后合并的另一种情况
+
+        if(pow==cur->pow){
+            cur->coe = coe + cur->coe;
+
+//            if(cur->coe==0){
+//                prior->next = cur->next;   //不删除掉这个节点
+//                return OK;
+//            }
+            return OK;
+        }
+        // 还有一种特殊情况： 比指针第一个节点的指数还要大，需要插入最前面
+        if(pow>L->next->pow){
+            LinkList tmp = (LinkList) malloc(sizeof(LNode));
+            tmp->pow = pow;
+            tmp->coe = coe;
+            tmp->next = cur;
+            L ->next =  tmp;
+            return OK;
+        }
+        // 比目前的小，比后面的大
+        if(pow< cur->pow && pow>rear->pow){
+            LinkList tmp = (LinkList) malloc(sizeof(LNode));
+            tmp->pow = pow;
+            tmp->coe = coe;
+            tmp->next = rear;
+            cur->next = tmp;
+            return OK;
+        }
+
+    }
+
+}
+
+void creat_list(LinkList &L){
+    LinkList new_base = (LinkList) malloc(sizeof(LNode));
+    L = new_base;
+    L->next = NULL;
+}

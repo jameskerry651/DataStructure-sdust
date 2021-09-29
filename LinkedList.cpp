@@ -10,7 +10,8 @@
 3.根据位置插入一个节点  Insert_Llist
 4.删除某个节点
 5.输出链表中的所有元素  print_Llist
-6.按照不递减的顺序插入元素到链表中去
+6.按照不递减的顺序插入元素到链表中去 insert_sort_list
+7.获取链表长度  getLength
 **/
 
 typedef int ElemType;
@@ -27,6 +28,8 @@ Status Creat_Llist(LinkList &L);
 Status Insert_Llist(LinkList &L,int pos,ElemType e);
 void print_Llist(LinkList &L);
 Status insert_sort_list(LinkList &L,int num);
+int getLength(LinkList &L);
+
 
 //主函数
 int main(){
@@ -35,9 +38,12 @@ int main(){
     Creat_Llist(L);
 
     int i,tmp;
-    for(i=0;i<3;i++){
+    int count = 0;
+    scanf("%d",&count);
+
+    for(i=0;i<count;i++){
         scanf("%d",&tmp);
-        Insert_Llist(L,i+1,tmp);
+        insert_sort_list(L,tmp);
     }
     print_Llist(L);
 
@@ -82,41 +88,48 @@ void print_Llist(LinkList &L)
 }
 
 Status insert_sort_list(LinkList &L,int num){
-    //考虑一开始的链表为空的特殊情况
 
     LinkList cur = L;
-    if(cur->next == NULL){
+    //考虑一开始的链表为空的特殊情况
+    if(L->next == NULL){
         LinkList tmp = (LinkList) malloc(sizeof(LNode));
         tmp->data = num;
         cur->next = tmp;
         tmp->next = NULL;
         return OK;
     }
-    // 一开始链表不为空或者只有一个的时候
-
-    while (cur->next!=NULL){
+    while(cur->next){
         LinkList prior = cur;
-        cur = cur->next;         //目前的指针
-        LinkList rear = cur->next;  //目前指针的后一个指针
+        cur = cur->next ;
 
-        if(rear==NULL){
-            LinkList tmp = (LinkList) malloc(sizeof(LNode));
-            tmp->data = num;
-            cur->next = tmp;
-            tmp->next = NULL;
-            return OK;
+        if(num<=cur->data){
+        LinkList tmp = (LinkList) malloc(sizeof(LNode));
+        tmp->data = num;
+        tmp->next = prior->next;
+        prior->next = tmp;
+        return OK;
         }
-
-        if(num>= cur->data && num<=rear->data){
-            LinkList tmp = (LinkList) malloc(sizeof(LNode));
-            tmp->data = num;
-            tmp->next = rear;
-            cur->next = tmp;
-            return OK;
-        }
-
     }
 
+    // 比所有的数字都大就尾插最后一个
+    LinkList tmp = (LinkList) malloc(sizeof(LNode));
+    tmp->data = num;
+    cur->next = tmp;
+    tmp->next = NULL;
+    return OK;
 
+
+}
+
+int getLength(LinkList &L)
+{
+    LinkList cur = L;
+    int count;
+    while(cur->next){
+        cur = cur->next;
+        count++;
+    }
+
+    return count;
 }
 
