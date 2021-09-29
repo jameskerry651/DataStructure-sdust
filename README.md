@@ -11,7 +11,7 @@ btw, u can contact me by Wechat,if u have any questions over code .this is my We
 有问题和相关项目都可以联系我
 ----
 About files:
-file name|details|      |
---|:-:|---|---
+file name|details|
+
 1.Sqlist     |   顺序表相关代码||
 2.LinkedList  |  链表相关代码||
