@@ -6,9 +6,9 @@
 /**
 动态链表需要完成的任务：
 1.创建动态链表   Creat_Llist
-2.查找某个元素
+2.查找某个元素    Locate_elem
 3.根据位置插入一个节点  Insert_Llist
-4.删除某个节点
+4.删除某个节点            delet_Llist
 5.输出链表中的所有元素  print_Llist
 6.按照不递减的顺序插入元素到链表中去 insert_sort_list
 7.获取链表长度  getLength
@@ -29,6 +29,8 @@ Status Insert_Llist(LinkList &L,int pos,ElemType e);
 void print_Llist(LinkList &L);
 Status insert_sort_list(LinkList &L,int num);
 int getLength(LinkList &L);
+Status delet_Llist(LinkList &L,int pos);
+int Locate_elem(LinkList &L,ElemType elem);      //如果存在则返回位置，不存在则返回-1
 
 
 //主函数
@@ -45,6 +47,7 @@ int main(){
         scanf("%d",&tmp);
         insert_sort_list(L,tmp);
     }
+    delet_Llist(L,2);
     print_Llist(L);
 
     return 0;
@@ -69,7 +72,7 @@ Status Insert_Llist(LinkList &L,int pos,ElemType e)
         i++;
     }
     if(!p) return ERROR;
-
+    //此时如果p存在，那么一定指向插入位置的前一个
     LinkList node = (LinkList)malloc(sizeof(LNode));
     node->data = e;
     node->next = p->next;
@@ -133,3 +136,33 @@ int getLength(LinkList &L)
     return count;
 }
 
+
+Status delet_Llist(LinkList &L,int pos)
+{
+    LinkList p = L;
+    int i = 0;
+    while(p &&i<pos-1){
+        p = p->next;
+        i++;
+    }
+
+    if(!p)return ERROR;
+    // 注意单个删除简单，如果是连续删除，前驱节点的位置不会更新，直到没有删除向前移动
+    p->next = p->next->next;
+    return OK;
+}
+
+int Locate_elem(LinkList &L,ElemType elem)
+{
+    LinkList cur = L->next;
+    int count = 1;
+    while(cur){
+        if(cur->data == elem){
+            return count;
+        }
+        cur = cur->next;
+        count ++;
+    }
+
+    return -1;
+}
