@@ -6,7 +6,7 @@
 1.栈的初始化   Init_Stack()
 2.入栈            Push()
 3.出栈            Pop()
-4.打印栈的内容
+4.打印栈的内容    Print_Stack()
 5.获取栈的长度
 6.清空栈的内容
 **/
@@ -28,10 +28,14 @@ typedef struct {
 Status Init_Stack(SqStack &S);
 Status Pop(SqStack &S,ElemType &e);
 Status Push(SqStack &S,ElemType data);
+void Print_Stack(SqStack &S);
 // 主函数
 int main(){
     SqStack S;
-
+    Init_Stack(S);
+    Push(S,1);
+    Push(S,2);
+    Print_Stack(S);
 
     return 0;
 }
@@ -39,7 +43,7 @@ int main(){
 
 //函数的定义
 Status Init_Stack(SqStack &S){
-    S.base = (ElemType *)malloc(STACK_INIT_SIZE * sizeof(SElemType));
+    S.base = (ElemType *)malloc(STACK_INIT_SIZE * sizeof(ElemType));
     if(!S.base) return ERROR;
     S.top = S.base;
     S.stacksize = STACK_INIT_SIZE;
@@ -49,8 +53,8 @@ Status Init_Stack(SqStack &S){
 Status Pop(SqStack &S,ElemType &e)
 {
 
-    if(S->top==S->base)return ERROR;
-    e = *--S->top;
+    if(S.top==S.base)return ERROR;
+    e = *--S.top;
     return OK;
 
 }
@@ -70,4 +74,12 @@ Status Push(SqStack &S,ElemType data)
 
 }
 
+void Print_Stack(SqStack &S)
+{
+    ElemType *cur = S.top;
+    while(cur!=S.base){
+        printf("%d ",*--cur);
+    }
+
+}
 

@@ -31,7 +31,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="Stack.cpp" />
+		<Unit filename="BiTNode.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
